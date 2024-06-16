@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EFriend Chat v2 - API</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: whitesmoke;
+        }
+
+        #message {
+            padding: 15px;
+            width: 40%;
+            border: 2px solid rgb(49, 47, 68);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        audio {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h3><strong>EFriend Chat - API</strong></h3>
+    <br><br>
+    <form id="form" enctype="multipart/form-data">
+        <input type="text" id="message" name="message" placeholder="Enter message here">
+        <br><br>
+        <button type="button" onclick="sendMessage()"><strong>Send</strong></button>
+    </form>
+    <br><br>
+    <audio id="audio" controls style="display: none;"></audio>
+
+    <script>
+        async function sendMessage() {
+            const message = document.getElementById("message").value;
+
+            const formData = new FormData();
+            formData.append("message", message);
+
+            const response = await fetch("/predict", {
+                method: "POST",
+                body: formData
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const audioUrl = URL.createObjectURL(blob);
+
+                const audioElement = document.getElementById("audio");
+                audioElement.src = audioUrl;
+                audioElement.style.display = "block";
+            } else {
+                alert("Error fetching audio");
+            }
+        }
+    </script>
+</body>
+
+</html>
