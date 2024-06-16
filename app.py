@@ -16,16 +16,19 @@ def predict():
     message = request.form["message"]
     
     # Crear una instancia del cliente para el nuevo modelo
-    client = Client("PolarO3O/efriend-sasha")
+    client = Client("LordCoffee/Multilingual-TTS")
     
     # Realizar la predicción con el nuevo modelo
     result = client.predict(
-        prompt=message,
-        api_name="/translate"
+        text=message,
+        language_code="English",
+		speaker="Jenny",
+		tashkeel_checkbox=False,
+		api_name="/text_to_speech_edge"
     )
     
     # Retornar el archivo de audio como resultado
-    return send_file(result, mimetype="audio/wav")
+    return send_file(result[1], mimetype="audio/wav")
 
 if __name__ == "__main__":
     app.run(debug=True)
