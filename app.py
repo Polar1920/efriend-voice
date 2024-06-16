@@ -22,13 +22,13 @@ def predict():
     result = client.predict(
         text=message,
         language_code="English",
-		speaker="Jenny",
+		speaker="Sonia",
 		tashkeel_checkbox=False,
 		api_name="/text_to_speech_edge"
     )
     
     # Retornar el archivo de audio como resultado
-    return send_file(result[1], mimetype="audio/wav")
+    return send_file(result[1], mimetype="audio/mp3")
 
 if __name__ == "__main__":
     app.run(debug=True)
